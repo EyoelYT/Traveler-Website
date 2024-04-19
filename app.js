@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+const cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -25,11 +26,35 @@ handlebars.registerPartials(__dirname + '/app_server/views/partials');
 
 app.set('view engine', 'hbs');
 
+// app.use(cors({
+//   origin: 'http://localhost:4200'
+// }));
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Enable Cors
+// app.use('/api', (req, res, next) => {
+//   res.header('Access-control-Allow-Origin', 'http://localhost:4200');
+//   res.header('Access-control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Authorization');
+//   res.header('Access-control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   next();
+// })
+
+// More proper usage of cors
+app.use(cors({
+  origin: 'http://localhost:4200', // Ensure there's no typo in the URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// You can still use specific CORS rules for /api if needed
+app.use('/api', cors(), (req, res, next) => {
+  next();
+});
 
 // Wire-up routes to controllers
 app.use('/', indexRouter);
