@@ -9,7 +9,7 @@ import { TripDataService } from '../services/trip-data.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule], // Why Import Here? :
   templateUrl: './add-trip.component.html',
-  styleUrl: './add-trip.component.css'
+  styleUrls: ['./add-trip.component.css']
 })
 
 // OnInit because we want a Component method to be called on startup of the ng

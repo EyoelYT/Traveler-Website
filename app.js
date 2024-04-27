@@ -1,22 +1,30 @@
-var createError = require('http-errors');
-var express = require('express');
+require('dotenv').config()
+
+// Registers 'users' into userScema
+require('./app_api/models/user');
+
+const createError = require('http-errors');
+const express = require('express');
 const cors = require('cors');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-// Define Routers
-var indexRouter = require('./app_server/routes/index');
-var usersRouter = require('./app_server/routes/users');
-var travelRouter = require('./app_server/routes/travel');
-var apiRouter = require('./app_api/routes/index');
-
-var handlebars = require('hbs');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const passport = require('passport');
 
 // Bring in the database
 require('./app_api/models/db');
 
-var app = express();
+require('./app_api/config/passport');
+
+// Define Routers
+const indexRouter = require('./app_server/routes/index');
+const usersRouter = require('./app_server/routes/users');
+const travelRouter = require('./app_server/routes/travel');
+const apiRouter = require('./app_api/routes/index'); // Goes to index.js
+
+const handlebars = require('hbs');
+
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'app_server', 'views'));
@@ -35,23 +43,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 // Enable Cors
-// app.use('/api', (req, res, next) => {
-//   res.header('Access-control-Allow-Origin', 'http://localhost:4200');
-//   res.header('Access-control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Authorization');
-//   res.header('Access-control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//   next();
-// })
+app.use('/api', (req, res, next) => {
+  res.header('Access-control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, authorization');
+  res.header('Access-control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  next();
+})
+
 
 // More proper usage of cors
-app.use(cors({
-  origin: 'http://localhost:4200', // Ensure there's no typo in the URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+// app.use(cors({
+//   origin: 'http://localhost:4200',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
+// }));
 
-// You can still use specific CORS rules for /api if needed
+// Can still use specific CORS rules for /api if I need to
 app.use('/api', cors(), (req, res, next) => {
   next();
 });
@@ -66,6 +76,14 @@ app.use('/api', apiRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+app.use((err, req, res, next) => {
+  if(err.name === 'UnauthorizedError') {
+    res
+      .status(401)
+      .json({"message": err.name + ": " + err.message});
+  }
+})
 
 // error handler
 app.use(function(err, req, res, next) {
