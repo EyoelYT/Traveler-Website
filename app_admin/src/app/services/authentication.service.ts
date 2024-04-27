@@ -12,15 +12,15 @@ export class AuthenticationService {
     @Inject(BROWSER_STORAGE) private storage: Storage,
     private tripDataService: TripDataService
   ) { }
-  
+
   public getToken(): string | null {
     return this.storage.getItem('travlr-token');
   }
-  
+
   public saveToken(token: string): void {
     this.storage.setItem('travlr-token', token);
   }
-  
+
   public login(user: User): Promise<any> {
     return this.tripDataService.login(user)
       .then((authResp: AuthResponse) => {
@@ -30,11 +30,11 @@ export class AuthenticationService {
           throw new Error('Auth token is missing');
         }
       });
-    }
+  }
 
   public register(user: User): Promise<any> {
     return this.tripDataService.register(user)
-      .then((authResp: AuthResponse) =>{
+      .then((authResp: AuthResponse) => {
         if (authResp.token) {
           this.saveToken(authResp.token);
         } else {
@@ -70,6 +70,6 @@ export class AuthenticationService {
         return { email, name } as User;
       }
     }
-      return undefined;
+    return undefined;
   }
 }

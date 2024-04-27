@@ -16,10 +16,9 @@ export class TripDataService {
     private http: HttpClient,
     @Inject(BROWSER_STORAGE) private storage: Storage
   ) { }
-  
+
   url = 'http://localhost:3000/api/trips';
-  // private tripUrl = '${this.url}trips';
-  
+
   // Import (TripDataService) class and call getTrips() to fetch the output of the url endpoint
   getTrips(): Observable<Trip[]> {
     return this.http.get<Trip[]>(this.url)
@@ -55,9 +54,5 @@ export class TripDataService {
     return firstValueFrom(
       this.http.post<AuthResponse>(url, user)
     ).catch(this.handleError); // toPromise() is deprecated
-    // return this.http
-    //   .post(url, user)
-    //   .toPromise()
-    //   .catch(this.handleError);
   }
 }

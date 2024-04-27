@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() { }
 
-  // FIXME Don't know if event should never be null
   public onLoginSubmit(event: Event): void {
     event.preventDefault();
     this.formError = '';
