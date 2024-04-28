@@ -8,7 +8,7 @@ const auth = jwt.expressjwt({
   algorithms: ['HS256'],
   userProperty: 'payload'
 });
-console.log("auth (jwt): ", auth);
+// console.log("auth (jwt): ", auth);
 
 // Here, import the controllers we will route
 const authController = require('../controllers/authentication');
