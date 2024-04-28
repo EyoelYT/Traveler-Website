@@ -40,6 +40,6 @@ userSchema.methods.generateJwt = function () {
   ); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };
 
-console.log('Registering \'users\' model...');
+// console.log('Registering \'users\' model...');
 mongoose.model("users", userSchema);
-console.log('Model registered.');
+// console.log('Model registered.');

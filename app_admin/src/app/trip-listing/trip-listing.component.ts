@@ -20,7 +20,7 @@ export class TripListingComponent implements OnInit {
   message: string = '';
 
   constructor(private tripDataService: TripDataService, private router: Router, private authenticationService: AuthenticationService) {
-    console.log('trip-listing constructor');
+    // console.log('trip-listing constructor');
   }
 
   // Get the list of trips from the express server using an angular service
@@ -52,7 +52,6 @@ export class TripListingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
     this.getStuff();
   }
 }
