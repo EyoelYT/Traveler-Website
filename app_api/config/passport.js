@@ -21,7 +21,3 @@ async (email, password, done) => {
   }
 }
 ));
-
-// async is the function
-// await is the return
-// the function works asynchronously
