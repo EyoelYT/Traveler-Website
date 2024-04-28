@@ -36,8 +36,14 @@ export class LoginComponent implements OnInit {
   }
 
   private doLogin(): void {
-    this.authenticationService.login(this.credentials)
-      .then(() => this.router.navigateByUrl('#'))
-      .catch((message) => this.formError = message);
-  }
+  this.authenticationService.login(this.credentials)
+    .then(() => {
+      this.router.navigateByUrl('/');
+    })
+    .catch((error) => {
+      console.error('Login error:', error);
+      this.formError = error.message || 'An error occurred during login.';
+    });
+}
+
 } 
