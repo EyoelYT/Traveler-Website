@@ -61,7 +61,7 @@ export class EditTripComponent implements OnInit {
           else {
             this.message = 'Trip: ' + tripCode + ' retrieved';
           }
-          console.log(this.message);
+          // console.log(this.message);
         },
         error: (error: any) => {
           console.log('Error: ' + error);
@@ -76,7 +76,7 @@ export class EditTripComponent implements OnInit {
       this.tripDataService.updateTrip(this.editForm.value)
         .subscribe({
           next: (value: any) => {
-            console.log(value);
+            // console.log(value);
             this.router.navigate(['']);
           },
           error: (error: any) => {
