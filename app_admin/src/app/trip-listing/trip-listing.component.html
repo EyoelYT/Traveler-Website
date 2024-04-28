@@ -1,11 +1,12 @@
 <div>
   <div *ngIf="isLoggedIn()">
+    <br>
     <button (click)="addTrip()" class="btn btn-info">Add Trip</button>
+    <br>
   </div>
 </div>
 <div class="row">
   <div *ngFor="let trip of trips" class="col-3">
-    <!-- So you inject the components into the htmls -->
     <app-trip-card [trip]="trip" class="card-deck mt-2"></app-trip-card>
   </div>
 </div>
