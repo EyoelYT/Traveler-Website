@@ -22,8 +22,10 @@ export class AuthenticationService {
   }
 
   public login(user: User): Promise<any> {
+    // console.log('Making login request', user);
     return this.tripDataService.login(user)
       .then((authResp: AuthResponse) => {
+        // console.log('Login response', authResp);
         if (authResp.token) {
           this.saveToken(authResp.token);
         } else {

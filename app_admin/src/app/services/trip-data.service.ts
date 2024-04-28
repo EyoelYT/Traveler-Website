@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
 
@@ -18,10 +18,8 @@ export class TripDataService {
   ) { }
 
   apiUrl = 'http://localhost:3000/api';
-  // tripsUrl = 'http://localhost:3000/api/trips'
   tripsUrl = `${this.apiUrl}/trips`;
 
-  // Import (TripDataService) class and call getTrips() to fetch the output of the url endpoint
   getTrips(): Observable<Trip[]> {
     return this.http.get<Trip[]>(this.tripsUrl);
   }

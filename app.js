@@ -34,10 +34,6 @@ handlebars.registerPartials(__dirname + '/app_server/views/partials');
 
 app.set('view engine', 'hbs');
 
-// app.use(cors({
-//   origin: 'http://localhost:4200'
-// }));
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -45,26 +41,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 
-// Enable Cors
-app.use('/api', (req, res, next) => {
-  res.header('Access-control-Allow-Origin', 'http://localhost:4200');
-  res.header('Access-control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, authorization');
-  res.header('Access-control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  next();
-})
-
 
 // More proper usage of cors
-// app.use(cors({
-//   origin: 'http://localhost:4200',
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
-// }));
-
-// Can still use specific CORS rules for /api if I need to
-app.use('/api', cors(), (req, res, next) => {
-  next();
-});
+app.use(cors({
+  origin: 'http://localhost:4200',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
+}));
 
 // Wire-up routes to controllers
 app.use('/', indexRouter);
