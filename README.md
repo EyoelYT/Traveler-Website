@@ -1,9 +1,3 @@
----
-title: Readme
----
-
-# Project Reflection
-
 ## Architecture
 
 -   Compared to the express project, the angular project is way more
